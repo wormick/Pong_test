@@ -24,6 +24,14 @@ int main() {
     Sound paddleHitSound;
     paddleHitSound.setBuffer(paddleHitBuffer);
 
+    SoundBuffer pointBuffer;
+    if (!pointBuffer.loadFromFile("point.ogg")) {
+        std::cerr << "Sound file not found." << std::endl;
+        return 1;
+    }
+    Sound pointSound;
+    pointSound.setBuffer(pointBuffer);
+
 
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Pong Game");
     window.setFramerateLimit(60);
@@ -104,12 +112,14 @@ int main() {
             rightScore++;
             ball.setPosition(windowWidth / 2 - ballRadius, windowHeight / 2 - ballRadius);
             ballDirection.x = 1.0f;
+            pointSound.play();
         }
         else if (ball.getPosition().x >= windowWidth - 2 * ballRadius) {
             // Left player scores a point
             leftScore++;
             ball.setPosition(windowWidth / 2 - ballRadius, windowHeight / 2 - ballRadius);
             ballDirection.x = -1.0f;
+            pointSound.play();
         }
 
         // Check if a player has reached a score of 10
